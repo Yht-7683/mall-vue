@@ -10,13 +10,13 @@
         class="site-navbar__menu--right"
         mode="horizontal">
         <el-menu-item index="2">
-            <a href="https://www.renren.io/" target="_blank">官方社区</a>
+            <a href="https://github.com/Yht-7683/" target="_blank">个人github</a>
         </el-menu-item>
         <el-submenu index="3">
           <template slot="title">github源码</template>
-          <el-menu-item index="3-1"><a href="https://github.com/renrenio/renren-fast-vue" target="_blank" style="color: #A3A5A6">管理系统前端</a></el-menu-item>
-          <el-menu-item index="3-2"><a href="https://gitee.com/renrenio/renren-fast" target="_blank" style="color: #A3A5A6">商城前端</a></el-menu-item>
-          <el-menu-item index="3-3"><a href="https://gitee.com/renrenio/renren-generator" target="_blank" style="color: #A3A5A6">后台</a></el-menu-item>
+          <el-menu-item index="3-1"><a href="https://github.com/Yht-7683/mall-vue" target="_blank" style="color: #A3A5A6">管理系统前端</a></el-menu-item>
+          <el-menu-item index="3-2"><a href="https://github.com/Yht-7683/mall-vue" target="_blank" style="color: #A3A5A6">商城前端</a></el-menu-item>
+          <el-menu-item index="3-3"><a href="https://github.com/Yht-7683/mall_back" target="_blank" style="color: #A3A5A6">商城后端</a></el-menu-item>
         </el-submenu>
         <el-menu-item class="site-navbar__avatar" index="3">
           <el-dropdown :show-timeout="0" placement="bottom">
@@ -93,7 +93,7 @@
     z-index: 1028;
     height: 60px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, .08);
-    background-color:#17B3A3;
+    background-color:#F57215;
   }
 
   .site-navbar__menu--right{

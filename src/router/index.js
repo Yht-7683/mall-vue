@@ -14,7 +14,7 @@ import { clearLoginInfo } from '@/utils'
 
 
 Vue.use(Router)
-const importComp = require('./import-' + process.env.NODE_ENV)
+const importComp =  require('./import-' + process.env.NODE_ENV)
 // 全局路由(无需嵌套上左右整体布局)
 const globalRoutes = [
   { path: '/404', component: ErrorPage, name: '404', meta: { title: '404未找到' } },
@@ -108,7 +108,8 @@ function fnAddDynamicMenuRoutes (menuList = [], routes = []) {
   for (var i = 0; i < menuList.length; i++) {
     if (menuList[i].list && menuList[i].list.length >= 1) {
       temp = temp.concat(menuList[i].list)
-    } else if (menuList[i].url && /\S/.test(menuList[i].url)) {
+    }
+    else if (menuList[i].url && /\S/.test(menuList[i].url)) {
       menuList[i].url = menuList[i].url.replace(/^\//, '')
       var route = {
         path: menuList[i].url.replace('/', '-'),
@@ -122,17 +123,13 @@ function fnAddDynamicMenuRoutes (menuList = [], routes = []) {
           iframeUrl: ''
         }
       }
-      // url以http[s]://开头, 通过iframe展示
-      if (isURL(menuList[i].url)) {
-        route['path'] = `i-${menuList[i].menuId}`
-        route['name'] = `i-${menuList[i].menuId}`
-        route['meta']['iframeUrl'] = menuList[i].url
-      } else {
         try {
           //添加组件路径
+          console.log(menuList[i].url)
+          // route['component'] =  resolve => require([`@/view/components/sys/role`],resolve)|| null
           route['component'] = importComp(`components/${menuList[i].url}`) || null
+          console.log(route['component'] )
         } catch (e) {}
-      }
       routes.push(route)
     }
   }
