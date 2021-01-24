@@ -36,34 +36,12 @@
         label="用户名">
       </el-table-column>
       <el-table-column
-        prop="email"
-        header-align="center"
-        align="center"
-        label="邮箱">
-      </el-table-column>
-      <el-table-column
         prop="mobile"
         header-align="center"
         align="center"
         label="手机号">
       </el-table-column>
-      <el-table-column
-        prop="status"
-        header-align="center"
-        align="center"
-        label="状态">
-        <template slot-scope="scope">
-          <el-tag v-if="scope.row.status === 0" size="small" type="danger">禁用</el-tag>
-          <el-tag v-else size="small" type="success">正常</el-tag>
-        </template>
-      </el-table-column>
-      <el-table-column
-        prop="createTime"
-        header-align="center"
-        align="center"
-        width="180"
-        label="创建时间">
-      </el-table-column>
+
       <el-table-column
         fixed="right"
         header-align="center"
@@ -118,7 +96,7 @@
       getDataList () {
         this.dataListLoading = true
         this.$http({
-          url: this.$http.adornUrl('/sys/user/list'),
+          url: this.$http.adornUrl('/mall/user/list'),
           method: 'get',
           params: this.$http.adornParams({
             'page': this.pageIndex,
@@ -170,7 +148,7 @@
           type: 'warning'
         }).then(() => {
           this.$http({
-            url: this.$http.adornUrl('/sys/user/delete'),
+            url: this.$http.adornUrl('/mall/user/delete'),
             method: 'post',
             data: this.$http.adornData(userIds, false)
           }).then(({data}) => {

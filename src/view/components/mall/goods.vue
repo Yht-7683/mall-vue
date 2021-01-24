@@ -2,7 +2,7 @@
   <div class="mod-user">
     <el-form :inline="true" :model="dataForm" @keyup.enter.native="getDataList()">
       <el-form-item>
-        <el-input v-model="dataForm.userName" placeholder="用户名" clearable></el-input>
+        <el-input v-model="dataForm.name" placeholder="商品名" clearable></el-input>
       </el-form-item>
       <el-form-item>
         <el-button @click="getDataList()">查询</el-button>
@@ -23,46 +23,52 @@
         width="50">
       </el-table-column>
       <el-table-column
-        prop="userId"
+        prop="goodsId"
         header-align="center"
         align="center"
         width="80"
         label="ID">
       </el-table-column>
       <el-table-column
-        prop="username"
+        prop="name"
         header-align="center"
         align="center"
-        label="用户名">
+        label="商品名">
       </el-table-column>
       <el-table-column
-        prop="email"
         header-align="center"
         align="center"
-        label="邮箱">
+        label="类别">
+        <el-table-column
+          prop="classificationName">
+        <template  slot="header" slot-scope="scope">
+        <el-select v-model="value" placeholder="请选择">
+          <el-option
+            v-for="item in classificationItem"
+            :key="item.classificationId"
+            :label="item.classificationName"
+            :value="item.classificationName">
+          </el-option>
+        </el-select>
+        </template>
+        </el-table-column>
       </el-table-column>
       <el-table-column
-        prop="mobile"
+        prop="img"
         header-align="center"
         align="center"
-        label="手机号">
-      </el-table-column>
-      <el-table-column
-        prop="status"
-        header-align="center"
-        align="center"
-        label="状态">
+        label="图片">
         <template slot-scope="scope">
-          <el-tag v-if="scope.row.status === 0" size="small" type="danger">禁用</el-tag>
-          <el-tag v-else size="small" type="success">正常</el-tag>
+          <el-image
+            style="width: 100px; height: 100px"
+            :src="scope.row.img"></el-image>
         </template>
       </el-table-column>
       <el-table-column
-        prop="createTime"
+        prop="details"
         header-align="center"
         align="center"
-        width="180"
-        label="创建时间">
+        label="详细说明">
       </el-table-column>
       <el-table-column
         fixed="right"
@@ -71,8 +77,8 @@
         width="150"
         label="操作">
         <template slot-scope="scope">
-          <el-button v-if="isAuth('sys:user:update')" type="text" size="small" @click="addOrUpdateHandle(scope.row.userId)">修改</el-button>
-          <el-button v-if="isAuth('sys:user:delete')" type="text" size="small" @click="deleteHandle(scope.row.userId)">删除</el-button>
+          <el-button v-if="isAuth('sys:user:update')" type="text" size="small" @click="addOrUpdateHandle(scope.row.goodsId)">修改</el-button>
+          <el-button v-if="isAuth('sys:user:delete')" type="text" size="small" @click="deleteHandle(scope.row.goodsId)">删除</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -91,13 +97,15 @@
 </template>
 
 <script>
-  import AddOrUpdate from './user-add-or-update'
+  import AddOrUpdate from './goods-add-or-update'
   export default {
     data () {
       return {
         dataForm: {
-          userName: ''
+          name: ''
         },
+        classificationItem: [],
+        value: '',
         dataList: [],
         pageIndex: 1,
         pageSize: 10,
@@ -118,12 +126,13 @@
       getDataList () {
         this.dataListLoading = true
         this.$http({
-          url: this.$http.adornUrl('/sys/user/list'),
+          url: this.$http.adornUrl('/mall/goods/list'),
           method: 'get',
           params: this.$http.adornParams({
             'page': this.pageIndex,
             'limit': this.pageSize,
-            'username': this.dataForm.userName
+            'name': this.dataForm.name,
+            'classificationName': this.value
           })
         }).then(({data}) => {
           if (data && data.code === 0) {
@@ -135,6 +144,14 @@
             this.totalPage = 0
           }
           this.dataListLoading = false
+        })
+        this.$http({
+          url: this.$http.adornUrl('mall/class/list'),
+          method: 'get',
+          params: this.$http.adornParams()
+        }).then(({data}) => {
+          this.classificationItem = data && data.code === 0 ? data.list : []
+          this.classificationItem.unshift("      ")
         })
       },
       // 每页数
@@ -161,18 +178,18 @@
       },
       // 删除
       deleteHandle (id) {
-        var userIds = id ? [id] : this.dataListSelections.map(item => {
-          return item.userId
+        var goodsIds = id ? [id] : this.dataListSelections.map(item => {
+          return item.goodsId
         })
-        this.$confirm(`确定对[id=${userIds.join(',')}]进行[${id ? '删除' : '批量删除'}]操作?`, '提示', {
+        this.$confirm(`确定对[id=${goodsIds.join(',')}]进行[${id ? '删除' : '批量删除'}]操作?`, '提示', {
           confirmButtonText: '确定',
           cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
           this.$http({
-            url: this.$http.adornUrl('/sys/user/delete'),
+            url: this.$http.adornUrl('/mall/goods/delete'),
             method: 'post',
-            data: this.$http.adornData(userIds, false)
+            data: this.$http.adornData(goodsIds, false)
           }).then(({data}) => {
             if (data && data.code === 0) {
               this.$message({
