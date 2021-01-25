@@ -97,7 +97,8 @@
         })
       },
       handleAvatarSuccess(res, file) {
-        this.imageUrl = URL.createObjectURL(file.raw);
+        console.log(res);
+        this.imageUrl = res.img;
         console.log(this.imageUrl)
       },
       beforeAvatarUpload(file) {
