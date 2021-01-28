@@ -135,7 +135,7 @@
   a{
     text-decoration: none;
   }
-  img {
+ .el-dropdown-link img {
     vertical-align: middle;
     width: 40px;
     border-radius: 25px;

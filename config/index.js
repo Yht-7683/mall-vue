@@ -12,8 +12,8 @@ module.exports = {
     assetsPublicPath: '/',
     proxyTable: {
       '/proxyApi': {
-        // target: 'http://localhost:9000/',
-        target: 'http://121.41.91.101:9000/',
+        target: 'http://localhost:9000/',
+        // target: 'http://121.41.91.101:9000/',
         changeOrigin: true,
         pathRewrite: {
           '^/proxyApi': '/'
@@ -59,8 +59,16 @@ module.exports = {
     // Paths
     assetsRoot: path.resolve(__dirname, '../dist'),
     assetsSubDirectory: 'static',
-    assetsPublicPath: '/',
-
+    assetsPublicPath: './',    proxyTable: {
+      '/proxyApi': {
+        // target: 'http://localhost:9000/',
+        target: 'http://121.41.91.101:9000/',
+        changeOrigin: true,
+        pathRewrite: {
+          '^/proxyApi': '/'
+        }
+      }
+    },
     /**
      * Source Maps
      */

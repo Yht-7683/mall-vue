@@ -6,8 +6,8 @@
       </el-form-item>
       <el-form-item>
         <el-button @click="getDataList()">查询</el-button>
-        <el-button v-if="isAuth('sys:user:save')" type="primary" @click="addOrUpdateHandle()">新增</el-button>
-        <el-button v-if="isAuth('sys:user:delete')" type="danger" @click="deleteHandle()" :disabled="dataListSelections.length <= 0">批量删除</el-button>
+        <el-button v-if="isAuth('mall:goods:save')" type="primary" @click="addOrUpdateHandle()">新增</el-button>
+        <el-button v-if="isAuth('mall:goods:delete')" type="danger" @click="deleteHandle()" :disabled="dataListSelections.length <= 0">批量删除</el-button>
       </el-form-item>
     </el-form>
     <el-table
@@ -61,7 +61,8 @@
         <template slot-scope="scope">
           <el-image
             style="width: 100px; height: 100px"
-            :src="scope.row.img"></el-image>
+            :src="scope.row.img"
+            :preview-src-list="[scope.row.img]"></el-image>
         </template>
       </el-table-column>
       <el-table-column
@@ -77,8 +78,8 @@
         width="150"
         label="操作">
         <template slot-scope="scope">
-          <el-button v-if="isAuth('sys:user:update')" type="text" size="small" @click="addOrUpdateHandle(scope.row.goodsId)">修改</el-button>
-          <el-button v-if="isAuth('sys:user:delete')" type="text" size="small" @click="deleteHandle(scope.row.goodsId)">删除</el-button>
+          <el-button v-if="isAuth('mall:goods:update')" type="text" size="small" @click="addOrUpdateHandle(scope.row.goodsId)">修改</el-button>
+          <el-button v-if="isAuth('mall:goods:delete')" type="text" size="small" @click="deleteHandle(scope.row.goodsId)">删除</el-button>
         </template>
       </el-table-column>
     </el-table>
